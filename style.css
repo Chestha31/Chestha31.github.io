@@ -1128,11 +1128,21 @@ nav {
     padding-bottom: 40px;
   }
   .hero-stats {
-    flex-direction: column;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
     margin: 0 -20px;
-    padding: 0 20px;
+    padding: 0;
   }
-  .stat { border-top: 1px solid var(--border); padding: 14px 0; }
+  .stat {
+    padding: 18px 20px;
+    border-top: 1px solid var(--border);
+    border-right: 1px solid var(--border);
+    flex: unset;
+  }
+  .stat:nth-child(odd) { border-right: 1px solid var(--border); }
+  .stat:nth-child(even) { border-right: none; }
+  .stat-value { font-size: 11px; letter-spacing: 0.1em; }
+  .stat-label { font-size: 9px; }
   .stat-divider { display: none; }
 
   /* Social proof */
