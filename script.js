@@ -205,10 +205,14 @@ document.addEventListener('DOMContentLoaded', () => {
           body: new FormData(form),
           headers: { Accept: 'application/json' },
         });
-        status.textContent = res.ok
-          ? '✓ INQUIRY RECEIVED — YOU WILL HEAR BACK WITHIN 48 HOURS.'
-          : '✗ SUBMISSION FAILED. PLEASE EMAIL DIRECTLY.';
-        if (res.ok) form.reset();
+        if (res.ok) {
+          status.textContent = '✓ INQUIRY RECEIVED — YOU WILL HEAR BACK WITHIN 48 HOURS.';
+          form.reset();
+        } else {
+          const data = await res.json().catch(() => ({}));
+          const msg = data.error || data.errors?.map(e => e.message).join(', ') || `HTTP ${res.status}`;
+          status.textContent = `✗ SUBMISSION FAILED: ${msg}`;
+        }
       } catch {
         status.textContent = '✗ NETWORK ERROR. PLEASE TRY AGAIN.';
       } finally {
